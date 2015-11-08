@@ -50,7 +50,7 @@ class ProductionConfig(Config):
             mailhost=(cls.MAIL_SERVER, cls.MAIL_PORT),
             fromaddr=cls.MAIL_DEFAULT_SENDER,
             toaddrs=[cls.ZHIHUX_ADMIN],
-            subject=MAIL_SUBJECT + ' Application Error ',
+            subject=cls.MAIL_SUBJECT + u' 程序错误 ',
             credentials=credentials,
             secure=secure)
         mail_handler.setLevel(logging.ERROR)
