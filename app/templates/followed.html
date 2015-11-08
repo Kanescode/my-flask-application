@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    {% for follow in followed_user %}
+    <ul class="followed">
+        <li class="followed">
+            <img src="{{ follow.followed.gravatar(size=30) }}">
+            <a href="{{ url_for('.profile', id=follow.followed.id) }}">
+                {{ follow.followed.username }}
+            </a>
+            {% if current_user.id == follow.follower.id %}
+            <a href="{{ url_for('.unfollow', username=follow.followed.username) }}"
+               class="btn btn-danger btn-xs" style="float:right">取消关注</a>
+            {% endif %}
+        </li>
+    </ul>
+    {% endfor %}
+{% endblock %}

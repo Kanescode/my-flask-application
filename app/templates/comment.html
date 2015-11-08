@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block page_content %}
+
+{% set moderate=True %}
+
+<h2>评论</h2>
+
+<ul class="comment-body">
+    {% for comment in comments %}
+    <li class="comment-body">
+        <div class="comment-icon">
+            <a class="icon" href="{{ url_for('.profile', id=comment.author.id) }}">
+                <img src="{{ comment.author.gravatar(size=40) }}">
+            </a>
+            <a class="username" href="{{ url_for('.profile', id=comment.author.id) }}">
+                {{ comment.author.username }}
+            </a>
+        </div>
+        <br>
+        <div class="comment-body">
+            {% if comment.disabled %}
+                <p><i>此评论已被XX</i></p>
+            {% else %}
+                {{ comment.body }}
+            {% endif %}
+
+        </div>
+        <br>
+        <div>
+            {% if moderate and current_user.can(Permission.MODERATE_COMMENT) %}
+                {% if comment.disabled %}
+                    <a class="btn btn-default btn-xs" href="{{ url_for('.enable_comment', id=comment.id) }}">允许</a>
+                {% else %}
+                    <a class="btn btn-danger btn-xs" href="{{ url_for('.disable_comment', id=comment.id) }}">屏蔽</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+
+<div>
+    {{ wtf.quick_form(form) }}
+</div>
+
+<div class="pagination">
+    {% if pagination %}
+        {{ macros.pagination_navigate(pagination, '.comment', id=id) }}
+    {% endif %}
+</div>
+<br>
+<br>
+
+{% endblock %}

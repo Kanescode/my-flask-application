@@ -1,0 +1,135 @@
+.container {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+ul.index-answer {
+    list-style-type: none;
+    padding: 8px;
+    margin-right: 400px;
+    border-top: 1px solid #e0e0e0;
+}
+
+li.answer {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 8px;
+}
+
+ul.index-question {
+    list-style-type: none;
+    margin-right: 400px;
+    padding: 8px;
+    border-top: 1px solid #e0e0e0;
+}
+
+li.index-question {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 8px;
+}
+
+
+div.a_index-show-question-button {
+    text-align: right;
+}
+
+div.a_index-thumbnail {
+    position: absolute;
+}
+
+div.a_index-content {
+    margin-left: 48px;
+}
+
+div.q_index-thumbnail {
+    position: absolute;
+}
+
+div.q_index-content {
+    margin-left: 48px;
+}
+
+div.q_index-question-title {
+    padding: 8px;
+}
+
+ul.profile-answer-list {
+    list-style-type: none;
+    padding-top: 6px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+ul.profile-question {
+    list-style-type: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 16px;
+}
+
+div.pagination {
+    margin-left: 45%;
+}
+
+div.form {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul.question-answer {
+    list-style-type: none;
+    border-top: 1px solid #e0e0e0;
+    padding: 16px;
+}
+
+li.question-answer {
+    list-style-type: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 16px;
+}
+
+div.button-group {
+    padding: 8px
+}
+
+ul.followers {
+    list-style-type: none;
+    border-top: 1px solid #e0e0e0;
+    padding: 8px;
+}
+
+li.followers {
+    padding: 8px;
+}
+
+ul.followed {
+    list-style-type: none;
+    border-top: 1px solid #e0e0e0;
+    padding: 8px;
+}
+
+li.followed {
+    padding: 8px;
+}
+
+ul.comment-body {
+    list-style-type: none;
+    border-top: 1px solid #e0e0e0;
+    padding: 26px;
+}
+
+li.comment-body {
+    list-style-type: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 26px;
+}
+
+ul.who_like_you {
+    list-style-type: none;
+    border-top: 1px solid #e0e0e0;
+    padding: 16px;
+}
+
+li.who_like_you {
+    list-style-type: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 16px;
+}

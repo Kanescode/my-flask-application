@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block page_content %}
+
+<div class="question-title">
+    <h2>{{ question.title }}</h2>
+</div>
+
+
+<ul class="question-answer">
+    {% for answer in answers %}
+    <li class="question-answer">
+        <div class="answer-body">
+            <a href="{{ url_for('.profile', id=answer.author.id) }}">
+                <img src="{{ answer.author.gravatar(size=40) }}">
+            </a>
+            <a href="{{ url_for('.profile', id=answer.author.id) }}">{{ answer.author.username }}</a>
+            <div class="answer-body" style="padding:15px">
+                {% if not answer.disabled %}
+                    {{ answer.body }}
+                {% else %}
+                    <i><p>此回答已被XX</p></i>
+                {% endif %}
+            </div>
+        </div>
+        <div class="button-group">
+            <a class="btn btn-primary btn-sm" href="{{ url_for('.comment', id=answer.id) }}">评论</a>
+            {% if current_user.is_authenticated and current_user.is_like(answer) %}
+                <a class="btn btn-warning btn-sm" href="{{ url_for('.remove_like', id=answer.id) }}">取赞</a>
+            {% else %}
+                <a class="btn btn-info btn-sm" href="{{ url_for('.add_like', id=answer.id) }}">赞</a>
+            {% endif %}
+            <a class="btn btn-link btn-sm" href="{{ url_for('.who_like_you', id=answer.id) }}">赞数:{{ answer.like.count() }}</a>
+            {% if current_user == answer.author %}
+                <a class="btn btn-danger btn-sm" href="{{ url_for('.edit_answer', id=answer.id) }}">修改回答</a>
+            {% endif %}
+            {% if current_user.can(Permission.MODERATE_COMMENT) %}
+                {% if not answer.disabled %}
+                    <a class="btn btn-danger btn-sm" href="{{ url_for('.disable_answer', id=answer.id) }}">和谐回答</a>
+                {% else %}
+                    <a class="btn btn-success btn-sm" href="{{ url_for('.enable_answer', id=answer.id) }}">释放回答</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+
+<div class="pagination">
+{% if pagination %}
+    {{ macros.pagination_navigate(pagination, '.question', id=id) }}
+{% endif %}
+</div>
+
+<div class="form">
+    {{ wtf.quick_form(form) }}
+</div>
+<br>
+<br>
+
+{% endblock %}

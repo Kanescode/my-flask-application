@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    {% for user in follower %}
+    <ul class="followers">
+        <li class="followers">
+            <a>
+                <img src="{{ user.follower.gravatar(size=30) }}">
+            </a>
+            <a href="{{ url_for('.profile', id=user.follower.id)}}" >{{ user.follower.username }}</a>
+        </li>
+    </ul>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block page_content %}
+<div class="question form">
+    {% if current_user.can(Permission.WRITE_ARTICLES) %}
+        {{ wtf.quick_form(form) }}
+    {% endif %}
+</div>
+<br>
+<ul id="myTab" class="nav nav-tabs">
+    <li {% if not show_ques %} class="active" {% endif %}><a href="{{ url_for('.show_answer') }}">回答</a></li>
+    <li {% if show_ques %} class="active" {% endif %}><a href="{{ url_for('.show_question') }}">问题</a></li>
+</ul>
+<br>
+<br>
+
+<ul class="index-question">
+    {% for question in questions %}
+    <li class="index-question">
+        <div class="q_index-thumbnail">
+            <a href="{{ url_for('.profile', id=question.author.id) }}">
+                <img class="img-rounded " src="{{ question.author.gravatar(size=35) }}">
+            </a>
+        </div>
+        <div class="q_index-content">
+            <h6><a href="{{ url_for('.profile', id=question.author.id) }}">
+                {{ question.author.username }}</a>提了该问题</h6>
+                <h6>{{ moment(question.timestamp).fromNow() }}</h6>
+            <div class="q_index-question-title">
+                <h4>
+                    <a href="{{ url_for('.question', id=question.id) }}">
+                        {{ question.title }}
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+    {% if q_pagination %}
+        <div class="pagination">
+            {{ macros.pagination_navigate(q_pagination, '.index') }}
+        </div>
+    {% endif %}
+</ul>
+
+{% endblock %}

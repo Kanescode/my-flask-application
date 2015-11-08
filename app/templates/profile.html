@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="#file" data-toggle="tab">基本资料</a></li>
+    <li><a href="#accout" data-toggle="tab">账号与密码</a></li>
+    <li><a href="#answer" data-toggle="tab">所有回答</a></li>
+</ul>
+
+
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade in active" id="file">
+        <img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=256) }}"
+        <br>
+        <p><br>姓名:  {{ user.username }}</p>
+        <p><br>居住地:  {{ user.location }}</p>
+        <p><br>关于我:  {{ user.about_me }}</p>
+        {% if user.gender %}
+            {% if user.gender == 1 %}
+                <p><br>性别:  男</p>
+            {% else %}
+                <p><br>性别:  女</p>
+            {% endif %}
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">修改资料</a>
+        {% endif %}
+        {% if current_user.can(Permission.ADMINISTER) and user != current_user %}
+            <a class="btn btn-warning" href="{{ url_for('.edit_admin_profile', id=user.id) }}">管理</a>
+        {% endif %}
+        {% if current_user.can(Permission.FOLLOW) and user != current_user %}
+            {% if not current_user.is_following(user) %}
+                <a class="btn btn-default" href="{{ url_for('.follow', username=user.username) }}">关注</a>
+            {% else %}
+                <a class="btn btn-default" href="{{ url_for('.unfollow', username=user.username) }}">取消关注</a>
+            {% endif %}
+        {% endif %}
+        <a class="btn btn-link" href="{{ url_for('.followed', username=user.username) }}">关注的人：{{ user.followed.count() }}</a>
+        <a class="btn btn_link" href="{{ url_for('.followers', username=user.username) }}">关注者： {{ user.followers.count() }}</a>
+    </div>
+    <div class="tab-pane fade" id="accout">
+        <br>
+        <br>
+        <div>
+            <p>账户密码</p><br>
+            <a class="btn btn-default" href="{{ url_for('auth.change_password') }}" role="button">修改</a>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="answer">
+        {% for answer in user.answer %}
+        <ul class="profile-answer-list">
+            <li>
+                <a href="{{ url_for('.question', id=answer.question.id) }}"><h3>{{ answer.question.title }}</h3></a>
+                {{ answer.body }}
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

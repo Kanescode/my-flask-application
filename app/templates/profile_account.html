@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+<ul id="myTab" class="nav nav-tabs">
+    <li><a href="{{ url_for('.profile', id=user.id) }}">基本资料</a></li>
+    {% if user.id == current_user.id %}<li class="active"><a href="{{ url_for('.profile_account', id=user.id) }}">账号与密码</a></li>{% endif %}
+    <li><a href="{{ url_for('.profile_answers', id=user.id) }}">所有回答</a></li>
+    <li><a href="{{ url_for('.profile_questions', id=user.id) }}">所有问题</a></li>
+</ul>
+
+
+
+<div id="account">
+    <br>
+    <br>
+    <div>
+        <p>账户密码</p><br>
+        <a class="btn btn-default" href="{{ url_for('auth.change_password') }}" role="button">修改</a>
+    </div>
+</div>
+{% endblock %}

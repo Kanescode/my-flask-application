@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block page_content %}
+
+<ul id="myTab" class="nav nav-tabs">
+    <li><a href="{{ url_for('.profile', id=user.id) }}">基本资料</a></li>
+    {% if user.id == current_user.id %}<li><a href="{{ url_for('.profile_account', id=user.id) }}">账号与密码</a></li>{% endif %}
+    <li><a href="{{ url_for('.profile_answers', id=user.id) }}">所有回答</a></li>
+    <li class="active"><a href="{{ url_for('.profile_questions', id=user.id) }}">所有问题</a></li>
+</ul>
+
+{% for question in user.question %}
+<ul class="profile-question">
+    <li>
+        <a href="{{ url_for('.question', id=question.id) }}">{{ question.title }}</a>
+    </li>
+</ul>
+{% endfor %}
+
+<div class="pagination">
+{% if pagination %}
+    {{ macros.pagination_navigate(pagination, '.profile_questions', id=user.id) }}
+{% endif %}
+</div>
+
+{% endblock %}

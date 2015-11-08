@@ -1,0 +1,54 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}知乎X{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='zhihu.jpg') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='zhihu.jpg') }}" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mycss.css') }}">
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="{{ url_for('main.index') }}">知乎X</a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				{% if current_user.is_authenticated %}
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ current_user.username }}</a>
+					<ul class="dropdown-menu">
+						<li><a href="{{ url_for('main.profile', id=current_user.id) }}">资料</a></li>
+						<li><a href="{{ url_for('auth.logout') }}">退出</a></li>
+					</ul>
+				</li>
+				{% else %}
+				<li><a href="{{ url_for('auth.login') }}">登录</a></li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	{% for messages in get_flashed_messages() %}
+	<div class="alert alert-warning alert-dismissable">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&spades;</button>
+		{{ messages }}
+	</div>
+	{% endfor %}
+	{% block page_content %}{% endblock %}
+	<p style="float:right">Powerde by RL</p>
+</div>
+{% endblock %}
+
+{% block script %}
+{{ super }}
+{{ pagedown.inclue_pagedown() }}
+{{ moment.include_moment() }}
+{% endblock %}

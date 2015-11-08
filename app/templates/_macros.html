@@ -1,0 +1,27 @@
+{% macro pagination_navigate(pagination, endpoint, id='' ) %}
+<ul class="pagination">
+    <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
+        <a {% if pagination.has_prev %}href="{{ url_for(endpoint, page=pagination.prev_num, id=id, **kwargs) }}"
+           {% else %}href="#" {% endif %}><</a>
+    </li>
+    {% for p in pagination.iter_pages() %}
+        {% if p %}
+            {% if p == pagination.page %}
+            <li class="active">
+                <a href="{{ url_for(endpoint, page=p, id=id, **kwargs) }}">{{ p }}</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{{ url_for(endpoint, page=p, id=id, **kwargs) }}">{{ p }}</a>
+            </li>
+            {% endif %}
+        {% else %}
+        <li class="disabled"><a href="#">></a></li>
+        {% endif %}
+    {% endfor %}
+    <li {% if not pagination.has_next %} class="disabled" {% endif %}>
+        <a {% if pagination.has_next %} href="{{ url_for(endpoint, page=pagination.next_num, id=id, **kwargs) }}"
+           {% else %} href="#" {% endif %}>></a>
+    </li>
+</ul>
+{% endmacro %}

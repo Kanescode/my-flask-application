@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+<h2>赞你的人</h2>
+
+<ul class="who_like_you">
+    {% for like in answer.like %}
+    <li class="who_like_you">
+        {{ like.user.username }}
+    </li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

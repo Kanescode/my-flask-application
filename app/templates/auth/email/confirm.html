@@ -1,0 +1,3 @@
+<a href="{{ url_for('auth.confirm', token=token, _external=True) }}">点击此处确认邮件</a>
+<p>如链接无效，请复制一下地址到浏览器地址栏确认账户：</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>

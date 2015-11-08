@@ -1,0 +1,29 @@
+{% for comment in comments %}
+<ul class="comment-body">
+    <li class="comment">
+        <div class="comment-icon">
+            <a class="icon" href="{{ url_for('.profile', id=comment.author.id) }}">
+                <img src="{{ comment.author.gravatar(size=40) }}">
+            </a>
+        </div>
+        <div class="comment-username">
+            <a class="username" href="{{ url_for('.profile', id=comment.author.id) }}">
+                {{ comment.author.username }}
+            </a>
+        </div>
+        {% if comment.disabled %}
+        <p><i>此评论已被XX</i></p>
+        {% else %}
+            {{ comment.body }}
+        {% endif %}
+        <br>
+        {% if moderate and current_user.can(Permission.MODERATE_COMMENT) %}
+            {% if comment.disabled %}
+            <a class="btn btn-default btn-xs" href="{{ url_for('.enable_comment', id=comment.id) }}">允许</a>
+            {% else %}
+            <a class="btn btn-danger btn-xs" href="{{ url_for('.disable_comment', id=comment.id) }}">屏蔽</a>
+            {% endif %}
+        {% endif %}
+    </li>
+</ul>
+{% endfor %}
