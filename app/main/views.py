@@ -47,6 +47,7 @@ def question(id):
                         question_id=id,
                         author=current_user._get_current_object())
         db.session.add(new_answer)
+        db.session.commit()
         return redirect(request.args.get('next') or url_for('.question', id=id, page=-1))
     page = request.args.get('page', 1, type=int)
     if page == -1:
@@ -77,6 +78,7 @@ def comment(id):
                             answer_id=id,
                             author=current_user._get_current_object())
         db.session.add(new_comment)
+        db.session.commit()
         return redirect(url_for('.comment', id=id, page=-1))
     page = request.args.get('page', 1, type=int)
     if page == -1:
@@ -179,6 +181,7 @@ def enable_answer(id):
     answer = Answer.query.get_or_404(id)
     answer.disabled = False
     db.session.add(answer)
+    db.session.commit()
     return redirect(url_for('.question', id=answer.question_id))
 
 @main.route('/disable_answer/<int:id>')
@@ -188,6 +191,7 @@ def disable_answer(id):
     answer = Answer.query.get_or_404(id)
     answer.disabled = True
     db.session.add(answer)
+    db.session.commit()
     return redirect(url_for('.question', id=answer.question_id))
 
 @main.route('/enable_comment/<int:id>')
@@ -197,6 +201,7 @@ def enable_comment(id):
     comment = Comment.query.get_or_404(id)
     comment.disabled = False
     db.session.add(comment)
+    db.session.commit()
     return redirect(url_for('.comment', id=comment.answer_id))
 
 @main.route('/disable_comment/<int:id>')
@@ -206,6 +211,7 @@ def disable_comment(id):
     comment = Comment.query.get(id)
     comment.disabled = True
     db.session.add(comment)
+    db.session.commit()
     return redirect(url_for('.comment', id=comment.answer_id))
 
 @main.route('/add_like/<int:id>')
@@ -218,6 +224,7 @@ def add_like(id):
     like = Like(answer=answer,
                 user=current_user._get_current_object())
     db.session.add(like)
+    db.session.commit()
     return redirect(url_for('.question', id=answer.question_id))
 
 @main.route('/remove_like/<int:id>')
@@ -227,6 +234,7 @@ def remove_like(id):
     like = Like.query.filter_by(answer_id=id, user_id=current_user.id).first()
     if like:
         db.session.delete(like)
+        db.session.commit()
     return redirect(url_for('.question', id=answer.question_id))
 
 @main.route('/who_like_you/<int:id>')
