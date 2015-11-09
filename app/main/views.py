@@ -20,6 +20,7 @@ def index():
     page = request.args.get('page', 1, type=int)
     show_ques = False
     show_ques = bool(request.cookies.get('show_ques', ''))
+    # bool('')为False,bool('0')为True
     if show_ques:
         q_pagination = Question.query.order_by(Question.timestamp.desc()
                                                ).paginate(page, per_page=5, error_out=False)
@@ -254,96 +255,6 @@ def show_question():
     resp = make_response(redirect(url_for('.index')))
     resp.set_cookie('show_ques', '1', max_age=30*24*60*60)
     return resp
-
-'''
-
-@main.route('/show_profile_profile/<int:id>')
-def show_profile_profile(id):
-    resp = make_response(redirect(url_for('.profile', id=id)))
-    resp.set_cookie('show_profile_profile', '', max_age=30*24*60*60)
-    # 此处设置基本资料的cookie为False时页面才会显示显示
-    resp.set_cookie('show_profile_account', '', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_answers', '', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_questions', '', max_age=30*24*60*60)
-    return resp
-# bool('')为False,bool('0')为True
-
-@main.route('/show_profile_account/<int:id>')
-def show_profile_account(id):
-    resp = make_response(redirect(url_for('.profile', id=id)))
-    resp.set_cookie('show_profile_account', '1', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_profile', '1', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_answers', '', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_questions', '', max_age=30*24*60*60)
-    return resp
-
-@main.route('/show_profile_answers/<int:id>')
-def show_profile_answers(id):
-    resp = make_response(redirect(url_for('.profile', id=id)))
-    resp.set_cookie('show_profile_answers', '1', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_account', '', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_profile', '1', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_questions', '', max_age=30*24*60*60)
-    return resp
-
-@main.route('/show_profile_questions/<int:id>')
-def show_profile_questions(id):
-    resp = make_response(redirect(url_for('.profile', id=id)))
-    resp.set_cookie('show_profile_questions', '1', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_account', '', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_profile', '1', max_age=30*24*60*60)
-    resp.set_cookie('show_profile_answers', '', max_age=30*24*60*60)
-    return resp
-
-@main.route('/profile/<int:id>', methods=['GET'])
-@login_required
-def profile(id):
-    user = User.query.get_or_404(id)
-    if user is None:
-        abort(404)
-    page = request.args.get('page', 1, type=int)
-    show_profile_account = show_profile_profile = \
-    show_profile_answers = show_profile_questions = False
-    show_profile_profile = bool(request.cookies.get('show_profile_profile', ''))
-    show_profile_account = bool(request.cookies.get('show_profile_account', ''))
-    show_profile_answers = bool(request.cookies.get('show_profile_answers', ''))
-    show_profile_questions = bool(request.cookies.get('show_profile_questions', ''))
-    if not show_profile_profile:
-        return render_template('profile_profile.html', user=user,
-                            show_profile_profile=show_profile_profile,
-                            show_profile_account=show_profile_account,
-                            show_profile_answers=show_profile_answers,
-                            show_profile_questions=show_profile_questions)
-    if show_profile_account:
-        return render_template('profile_account.html', user=user,
-                            show_profile_profile=show_profile_profile,
-                            show_profile_account=show_profile_account,
-                            show_profile_answers=show_profile_answers,
-                            show_profile_questions=show_profile_questions)
-    if show_profile_answers:
-        pagination = Answer.query.filter_by(author=user).paginate(page, per_page=5, error_out=False)
-        return render_template('profile_answers.html',
-                            page=page, pagination=pagination, user=user,
-                            show_profile_profile=show_profile_profile,
-                            show_profile_account=show_profile_account,
-                            show_profile_answers=show_profile_answers,
-                            show_profile_questions=show_profile_questions)
-    if show_profile_questions:
-        pagination = Question.query.filter_by(author=user).paginate(page, per_page=10, error_out=False)
-        return render_template('profile_questions.html',
-                            page=page, pagination=pagination, user=user,
-                            show_profile_profile=show_profile_profile,
-                            show_profile_account=show_profile_account,
-                            show_profile_answers=show_profile_answers,
-                            show_profile_questions=show_profile_questions)
-    else:
-        return render_template('profile_profile.html', user=user,
-                            show_profile_profile=show_profile_profile,
-                            show_profile_account=show_profile_account,
-                            show_profile_answers=show_profile_answers,
-                            show_profile_questions=show_profile_questions)
-
-'''
 
 @main.route('/profile/<int:id>')
 @login_required
