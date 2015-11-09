@@ -90,6 +90,7 @@ def reset_password(token):
         if user.confirm(token):
             user.password_hash = generate_password_hash(form.new_password.data)
             db.session.add(user)
+            db.session.commit()
             flash(u'账户密码已被修改')
             return redirect(url_for('auth.login'))
         else:
@@ -106,6 +107,7 @@ def change_password():
         current_user.password_hash = \
             generate_password_hash(form.new_password.data)
         db.session.add(current_user)
+        db.session.commit()
         logout_user()
         flash(u'你的密码已被修改，请重新登录')
         return redirect(url_for('auth.login'))

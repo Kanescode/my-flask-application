@@ -118,6 +118,7 @@ class User(db.Model, UserMixin):
             return False
         self.confirmed = True
         db.session.add(self)
+        db.session.commit()
         return True
 
     def __repr__(self):
@@ -153,11 +154,13 @@ class User(db.Model, UserMixin):
             f = Follow(follower_id=self.id,
                        followed_id=user.id)
             db.session.add(f)
+            db.session.commit()
 
     def unfollow(self, user):
         f = self.followed.filter_by(followed_id=user.id).first()
         if f:
             db.session.delete(f)
+            db.session.commit()
 
     def is_like(self, answer):
         return self.like.filter_by(
