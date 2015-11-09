@@ -15,6 +15,7 @@ def index():
         new_question = Question(title=form.title.data,
                             author=current_user._get_current_object())
         db.session.add(new_question)
+        db.session.commit()
         return redirect(request.args.get('next') or url_for('.index'))
     page = request.args.get('page', 1, type=int)
     show_ques = False
