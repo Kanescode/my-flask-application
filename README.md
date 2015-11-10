@@ -1,5 +1,5 @@
 
-## my-flask-application
+### my-flask-application
 先用命令python manage.py shell 进入shell模式
 然后输入一下命令：
 from app import db
