@@ -2,6 +2,8 @@
 ZhihuX
 ======
 
+ZhihuX是仿照知乎制作的问答网站
+
 #####使用方法
 用命令python manage.py shell 进入shell模式 <br>
 输入一下命令： <br>
